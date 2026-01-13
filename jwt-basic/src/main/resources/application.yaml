@@ -1,0 +1,99 @@
+spring:
+  application:
+    name: jwt-basic
+
+  # Database Configuration
+  # Using PostgreSQL with hardcoded credentials for demo purposes
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jwt-basic-demo-db
+    username: jwtuser
+    password: jwtpass123
+    driver-class-name: org.postgresql.Driver
+
+  # JPA/Hibernate Configuration
+  jpa:
+    hibernate:
+      # ddl-auto: update
+      # - Automatically creates/updates tables based on entities
+      # - Good for development, NOT for production
+      # - In production, use Flyway or Liquibase for migrations
+      ddl-auto: update
+
+    # Show SQL queries in console (useful for debugging)
+    show-sql: true
+
+    # PostgreSQL specific dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+    properties:
+      hibernate:
+        # Format SQL queries for better readability
+        format_sql: true
+        # Show comments in SQL queries
+        use_sql_comments: true
+
+# Server Configuration
+server:
+  port: 8080
+
+# JWT Configuration
+auth:
+  token:
+    # JWT Secret Key
+    # Generate a secure key using OpenSSL:
+    # openssl rand -base64 32
+    # Output example: 7JnMqvDc8x2K9pLmNbVcXzAsFgHjKlPoIuYtRwQeWsZ=
+    #
+    # For 64-byte key:
+    # openssl rand -base64 64
+    # Output example: 7JnMqvDc8x2K9pLmNbVcXzAsFgHjKlPoIuYtRwQeWsZ1A2B3C4D5E6F7G8H9I0J=
+    #
+    # IMPORTANT: Never commit real secrets to Git!
+    # This is a demo key, generate your own for real projects
+    jwtSecret: 7JnMqvDc8x2K9pLmNbVcXzAsFgHjKlPoIuYtRwQeWsZ=
+
+    # Access token expiration time in milliseconds
+    # 900000ms = 15 minutes
+    # This is a short-lived token for security
+    expirationInMils: 900000
+
+# Logging Configuration
+logging:
+  level:
+    # Show SQL parameters in console
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    # Show SQL queries
+    org.hibernate.SQL: DEBUG
+    # Application logs
+    io.fayupable.jwtbasic: DEBUG
+
+---
+# Docker Profile
+# This profile is activated when running inside Docker
+# Use: docker-compose up or set SPRING_PROFILES_ACTIVE=docker
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  # Database connection for Docker environment
+  # 'postgres' is the service name in docker-compose.yml
+  datasource:
+    url: jdbc:postgresql://postgres:5432/jwt-basic-demo-db
+    username: jwtuser
+    password: jwtpass123
+
+  # Disable SQL logging in Docker for cleaner logs
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        use_sql_comments: false
+
+# Reduce log verbosity in Docker
+logging:
+  level:
+    org.hibernate.type.descriptor.sql.BasicBinder: INFO
+    org.hibernate.SQL: INFO
+    io.fayupable.jwtbasic: INFO

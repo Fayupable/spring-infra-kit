@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: jwt-basic-postgres
+    environment:
+      POSTGRES_DB: jwt-basic-demo-db
+      POSTGRES_USER: jwtuser
+      POSTGRES_PASSWORD: jwtpass123
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - jwt-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U jwtuser -d jwt-basic-demo-db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Spring Boot Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jwt-basic-app
+    environment:
+      # Activate Docker profile
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - jwt-network
+    restart: unless-stopped
+
+networks:
+  jwt-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local

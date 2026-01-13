@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: jwt-refresh-postgres
+    environment:
+      POSTGRES_DB: jwt_refresh_db
+      POSTGRES_USER: jwtuser
+      POSTGRES_PASSWORD: jwtpass123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - jwt-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jwtuser -d jwt_refresh_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: jwt-refresh-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - jwt-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    command: redis-server --appendonly yes
+
+  # Spring Boot Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jwt-refresh-app
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/jwt_refresh_db
+      SPRING_DATASOURCE_USERNAME: jwtuser
+      SPRING_DATASOURCE_PASSWORD: jwtpass123
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - jwt-network
+    restart: unless-stopped
+
+networks:
+  jwt-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
