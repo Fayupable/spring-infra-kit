@@ -6,9 +6,11 @@ A curated collection of **production-ready Spring Boot infrastructure modules** 
 
 ## What is This?
 
-This repository contains **standalone, reusable infrastructure implementations** that I've built and refined across multiple production projects.
+This repository contains **standalone, reusable infrastructure implementations** that I've built and refined across
+multiple production projects.
 
 Each module:
+
 - Focuses on a single infrastructure concern
 - Works independently (no dependencies between modules)
 - Includes Docker setup and detailed documentation
@@ -22,36 +24,39 @@ Each module:
 ## Why Does This Exist?
 
 Over time, I noticed I was rebuilding the same infrastructure components in every project:
+
 - JWT authentication setup
 - Kafka with SASL/SSL configuration
 - Notification services
 - Database initialization scripts
 - Monitoring stacks
 
-This repository prevents that repetition. Instead of Googling "Spring Boot JWT setup" for the 10th time, I have a working reference that I can copy and adapt.
+This repository prevents that repetition. Instead of Googling "Spring Boot JWT setup" for the 10th time, I have a
+working reference that I can copy and adapt.
 
 ---
 
 ## Available Modules
 
-| Module | Status | Description | Technologies | Setup Time |
-|--------|--------|-------------|--------------|------------|
-| **[jwt-basic](./jwt-basic)** | Ready | Stateless JWT authentication | Spring Security, JWT, PostgreSQL | 10 min |
-| **[jwt-refresh-token](./jwt-refresh-token)** | In Progress | JWT with refresh token support | Spring Security, JWT, Redis, PostgreSQL | 15 min |
-| **kafka-setup** | Planned | Basic Kafka with Docker | Kafka, Zookeeper | 10 min |
-| **kafka-sasl-ssl** | Planned | Production-grade secure Kafka | Kafka, SASL/SSL, Shell Scripts | 20 min |
-| **notification-service** | Planned | Event-driven email notifications | Kafka, Spring Mail, Maildev | 15 min |
-| **postgres-docker** | Planned | PostgreSQL with health checks | PostgreSQL, Docker | 10 min |
-| **redis-json-cache** | Planned | Redis caching with JSON | Redis, Jackson | 10 min |
-| **spring-data-specification** | Planned | Dynamic query building | Spring Data JPA | 15 min |
-| **spring-data-projection** | Planned | Performance-optimized queries | Spring Data JPA | 15 min |
-| **monitoring-stack** | Planned | Observability setup | Grafana, Prometheus, Loki | 20 min |
+| Module                                                  | Status  | Description                      | Technologies                            | Setup Time |
+|---------------------------------------------------------|---------|----------------------------------|-----------------------------------------|------------|
+| **[jwt-basic](./jwt-basic)**                            | Ready   | Stateless JWT authentication     | Spring Security, JWT, PostgreSQL        | 10 min     |
+| **[jwt-refresh-token](./jwt-refresh-token)**            | Ready   | JWT with refresh token support   | Spring Security, JWT, Redis, PostgreSQL | 15 min     |
+| **[kafka-setup](./kafka-plaintext)**                    | Ready   | Basic Kafka with Docker          | Kafka, Zookeeper                        | 10 min     |
+| **[kafka-sasl-ssl](./kafka-sasl-ssl)**                  | Ready   | Production-grade secure Kafka    | Kafka, SASL/SSL, Shell Scripts          | 20 min     |
+| **notification-service**                                | Planned | Event-driven email notifications | Kafka, Spring Mail, Maildev             | 15 min     |
+| **postgres-docker**                                     | Planned | PostgreSQL with health checks    | PostgreSQL, Docker                      | 10 min     |
+| **redis-json-cache**                                    | Planned | Redis caching with JSON          | Redis, Jackson                          | 10 min     |
+| **[spring-data-specification](./spring-specification)** | Ready   | Dynamic query building           | Spring Data JPA                         | 15 min     |
+| **[spring-data-projection](./spring-projection)**       | Ready   | Performance-optimized queries    | Spring Data JPA                         | 15 min     |
+| **monitoring-stack**                                    | Planned | Observability setup              | Grafana, Prometheus, Loki               | 20 min     |
 
 ---
 
 ## Philosophy
 
 ### What These Modules ARE:
+
 - Reference implementations of infrastructure patterns
 - Copy-paste ready code with extensive comments
 - Docker-first approach for consistent environments
@@ -59,6 +64,7 @@ This repository prevents that repetition. Instead of Googling "Spring Boot JWT s
 - Real-world configurations (not toy examples)
 
 ### What These Modules ARE NOT:
+
 - Full-featured applications with business logic
 - Tutorial series (though you'll learn from them)
 - Production-ready in terms of security/scaling (you need to adapt)
@@ -86,6 +92,7 @@ cd jwt-basic
 ### 3. Follow Module README
 
 Each module has its own detailed README with:
+
 - Prerequisites
 - Setup instructions
 - API documentation
@@ -132,6 +139,7 @@ module-name/
 ## How to Use
 
 ### Option 1: Copy Entire Module
+
 ```bash
 cp -r jwt-basic ../my-project/
 cd ../my-project/jwt-basic
@@ -139,6 +147,7 @@ cd ../my-project/jwt-basic
 ```
 
 ### Option 2: Copy Specific Components
+
 ```bash
 # Copy just the security configuration
 cp jwt-basic/src/.../config/SecurityConfig.java ../my-project/
@@ -146,6 +155,7 @@ cp jwt-basic/src/.../security/ ../my-project/ -r
 ```
 
 ### Option 3: Learn and Implement Yourself
+
 Read the code, understand the patterns, implement in your own way.
 
 ---
@@ -180,42 +190,45 @@ Read the code, understand the patterns, implement in your own way.
 
 ### JWT Modules
 
-| Feature | jwt-basic | jwt-refresh-token |
-|---------|-----------|-------------------|
-| Access Token | Yes | Yes |
-| Refresh Token | No | Yes |
-| Redis | No | Yes |
-| Logout | No | Yes |
-| Token Rotation | No | Yes |
-| Complexity | Low | Medium |
-| Production Ready | No | Yes |
+| Feature          | jwt-basic | jwt-refresh-token |
+|------------------|-----------|-------------------|
+| Access Token     | Yes       | Yes               |
+| Refresh Token    | No        | Yes               |
+| Redis            | No        | Yes               |
+| Logout           | No        | Yes               |
+| Token Rotation   | No        | Yes               |
+| Complexity       | Low       | Medium            |
+| Production Ready | No        | Yes               |
 
 ### Kafka Modules
 
-| Feature | kafka-setup | kafka-sasl-ssl |
-|---------|-------------|----------------|
-| Basic Setup | Yes | Yes |
-| Security | No | Yes |
-| SSL/TLS | No | Yes |
-| SASL Auth | No | Yes |
-| Shell Scripts | Basic | Advanced |
-| Production Ready | No | Yes |
+| Feature          | kafka-setup | kafka-sasl-ssl |
+|------------------|-------------|----------------|
+| Basic Setup      | Yes         | Yes            |
+| Security         | No          | Yes            |
+| SSL/TLS          | No          | Yes            |
+| SASL Auth        | No          | Yes            |
+| Shell Scripts    | Basic       | Advanced       |
+| Production Ready | No          | Yes            |
 
 ---
 
 ## Learning Path
 
 **Beginner:**
+
 1. jwt-basic
 2. postgres-docker
 3. kafka-setup
 
 **Intermediate:**
+
 1. jwt-refresh-token
 2. spring-data-specification
 3. notification-service
 
 **Advanced:**
+
 1. kafka-sasl-ssl
 2. monitoring-stack
 3. Combined implementations
@@ -231,6 +244,7 @@ Found a bug? Have a suggestion?
 3. Follow the existing code style
 
 **Want to add a module?**
+
 - Ensure it follows the same structure
 - Include comprehensive README
 - Add Docker support
@@ -241,6 +255,7 @@ Found a bug? Have a suggestion?
 ## Real-World Usage
 
 These modules are extracted from production projects. They've been:
+
 - Battle-tested in real applications
 - Debugged through actual use cases
 - Optimized based on real performance issues
@@ -265,6 +280,7 @@ These modules are extracted from production projects. They've been:
 ### Should I use these in production as-is?
 
 **No.** These are starting points. You need to:
+
 - Change default passwords
 - Add proper error handling
 - Implement rate limiting
@@ -276,16 +292,19 @@ These modules are extracted from production projects. They've been:
 ## Roadmap
 
 ### Q1 2025
+
 - Complete jwt-refresh-token
 - Add kafka-setup
 - Add kafka-sasl-ssl
 
 ### Q2 2025
+
 - notification-service
 - postgres-docker
 - redis-json-cache
 
 ### Q3 2025
+
 - spring-data-specification
 - spring-data-projection
 - monitoring-stack
@@ -313,6 +332,7 @@ Software Engineer building and documenting infrastructure patterns from real pro
 ## Acknowledgments
 
 Built from:
+
 - Lessons learned across multiple production projects
 - Countless hours reading Spring documentation
 - Trial and error with Docker, Kafka, and other tools
@@ -323,6 +343,7 @@ Built from:
 ## Support
 
 If this repository saves you time or helps you learn:
+
 - Star it on GitHub
 - Share it with your team
 - Mention it in a blog post

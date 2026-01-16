@@ -9,14 +9,25 @@
         <outputRelativeToContentRoot value="true" />
         <module name="jwt-basic" />
       </profile>
-      <profile name="Annotation profile for jwt-refresh-token" enabled="true">
+      <profile name="Annotation profile for Spring Specification" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
+        <module name="spring-projection" />
         <module name="jwt-refresh-token" />
+      </profile>
+      <profile name="Annotation profile for spring-specification" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+        </processorPath>
+        <module name="spring-specification" />
       </profile>
     </annotationProcessing>
   </component>
@@ -24,6 +35,8 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="jwt-basic" options="-parameters" />
       <module name="jwt-refresh-token" options="-parameters" />
+      <module name="spring-projection" options="-parameters" />
+      <module name="spring-specification" options="-parameters" />
     </option>
   </component>
 </project>

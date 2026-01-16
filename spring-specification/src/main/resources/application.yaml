@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: specification-demo
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/specification_db
+    username: specuser
+    password: specpass123
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  sql:
+    init:
+      mode: always
+
+server:
+  port: 8081
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    io.fayupable.specification: DEBUG
