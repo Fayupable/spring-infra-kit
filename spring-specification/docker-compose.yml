@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: specification-postgres
+    environment:
+      POSTGRES_DB: specification_db
+      POSTGRES_USER: specuser
+      POSTGRES_PASSWORD: specpass123
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - specification-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U specuser -d specification_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: specification-app
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/specification_db
+      SPRING_DATASOURCE_USERNAME: specuser
+      SPRING_DATASOURCE_PASSWORD: specpass123
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - specification-network
+    restart: unless-stopped
+
+networks:
+  specification-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

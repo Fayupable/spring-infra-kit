@@ -1,0 +1,40 @@
+# SSL Certificates and Keys
+certs/
+*.jks
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+ca-cert
+ca-key
+cert-file
+cert-signed
+ca-cert.srl
+*_creds
+
+# Docker volumes
+docker/volumes/
+
+# Logs
+*.log
+logs/
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
