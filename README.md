@@ -50,6 +50,13 @@ working reference that I can copy and adapt.
 | **[spring-data-specification](./spring-specification)** | Ready   | Dynamic query building           | Spring Data JPA                         | 15 min     |
 | **[spring-data-projection](./spring-projection)**       | Ready   | Performance-optimized queries    | Spring Data JPA                         | 15 min     |
 | **monitoring-stack**                                    | Planned | Observability setup              | Grafana, Prometheus, Loki               | 20 min     |
+| **keycloak-integration**                                | Planned | Keycloak SSO integration         | Keycloak, Spring Security               | 20 min     |
+| **saga-pattern(monolithic)**                            | Planned | Saga pattern in monolithic apps  | Spring Boot, Transactions               | 20 min     |
+| **saga-pattern(microservices)**                         | Planned | Saga pattern in microservices    | Spring Boot, Kafka                      | 25 min     |
+| **2fa-totp**                                            | Planned | Two-Factor Authentication (TOTP) | Spring Security, Google Authenticator   | 15 min     |
+| **aws-s3-integration**                                  | Planned | AWS S3 file storage integration  | AWS SDK, Spring Boot                    | 15 min     |
+| **google-cloud-vision-api**                             | Planned | Google Cloud Vision API usage    | Google Cloud SDK, Spring Boot           | 15 min     |
+| **claudflare-r2-integration**                           | Planned | Cloudflare R2 file storage       | Cloudflare SDK, Spring Boot             | 15 min     |
 
 ---
 

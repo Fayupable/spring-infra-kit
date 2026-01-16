@@ -53,6 +53,12 @@ The `certs/` directory is ignored by git for security.
 
 ## Quick Start
 
+### 0. Setup Permissions
+Before running scripts, ensure they are executable:
+```bash
+chmod +x ./scripts/*.sh
+```
+
 ### 1. Generate SSL Certificates
 
 ```bash
