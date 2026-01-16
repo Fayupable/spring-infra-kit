@@ -7,6 +7,7 @@ A minimal Apache Kafka setup for local development and testing using Docker Comp
 ## Purpose
 
 This module demonstrates a basic Kafka deployment with:
+
 - Single Zookeeper instance
 - Single Kafka broker
 - No authentication or encryption
@@ -68,6 +69,14 @@ This module demonstrates a basic Kafka deployment with:
 
 ## Quick Start
 
+### 0. Setup Permissions
+
+Before running scripts, ensure they are executable:
+
+```bash
+chmod +x ./scripts/*.sh
+```
+
 ### 1. Start Kafka Cluster
 
 ```bash
@@ -75,12 +84,14 @@ This module demonstrates a basic Kafka deployment with:
 ```
 
 **What it does:**
+
 - Starts Zookeeper
 - Starts Kafka broker
 - Waits for services to be healthy
 - Verifies broker connectivity
 
 **Expected output:**
+
 ```
 Starting Zookeeper and Kafka...
 Waiting for services to be ready...
@@ -101,11 +112,13 @@ Next: Run ./scripts/02-create-topics.sh
 ```
 
 **Creates:**
+
 - `events` topic (3 partitions, replication factor 1)
 - `logs` topic (5 partitions, replication factor 1)
 - `transactions` topic (3 partitions, replication factor 1)
 
 **Expected output:**
+
 ```
 Creating topic: events (partitions=3, replication=1)
 Created topic events.
@@ -123,6 +136,7 @@ Topics created!
 ```
 
 **Interactive producer:**
+
 ```
 Type messages (Ctrl+C to exit):
 
@@ -132,6 +146,7 @@ Type messages (Ctrl+C to exit):
 ```
 
 **Batch produce:**
+
 ```bash
 ./scripts/03-produce-messages.sh events < examples/sample-events.txt
 ```
@@ -145,6 +160,7 @@ Type messages (Ctrl+C to exit):
 ```
 
 **Output:**
+
 ```
 Hello Kafka
 This is a test message
@@ -152,6 +168,7 @@ This is a test message
 ```
 
 **With keys:**
+
 ```bash
 ./scripts/04-consume-messages.sh events --with-keys
 ```
@@ -165,6 +182,7 @@ This is a test message
 ```
 
 **Tests:**
+
 - Producer throughput (messages/sec)
 - Consumer throughput (messages/sec)
 - End-to-end latency
@@ -220,6 +238,7 @@ kafka-plaintext/
 Starts Docker Compose and verifies connectivity.
 
 **Key operations:**
+
 1. Check Docker availability
 2. Start services with `docker-compose up -d`
 3. Wait for broker to be ready
@@ -232,6 +251,7 @@ Starts Docker Compose and verifies connectivity.
 Creates predefined topics with specific configurations.
 
 **Configuration format:**
+
 ```bash
 TOPICS=(
     "topic_name:partitions:replication_factor"
@@ -239,6 +259,7 @@ TOPICS=(
 ```
 
 **Example:**
+
 ```bash
 "events:3:1"  # 3 partitions, replication factor 1
 ```
@@ -250,12 +271,14 @@ TOPICS=(
 Interactive message producer using `kafka-console-producer`.
 
 **Supports:**
+
 - Plain text messages
 - Key-value pairs (key:value format)
 - Piped input from files
 - JSON messages
 
 **Usage:**
+
 ```bash
 ./scripts/03-produce-messages.sh <topic> [--with-keys]
 ```
@@ -267,12 +290,14 @@ Interactive message producer using `kafka-console-producer`.
 Message consumer with various options.
 
 **Modes:**
+
 - From beginning (`--from-beginning`)
 - From latest
 - With keys (`--with-keys`)
 - Specific partition (`--partition N`)
 
 **Usage:**
+
 ```bash
 ./scripts/04-consume-messages.sh <topic> [options]
 ```
@@ -284,10 +309,12 @@ Message consumer with various options.
 Runs performance benchmarks using Kafka's built-in tools.
 
 **Tests:**
+
 1. Producer throughput: `kafka-producer-perf-test`
 2. Consumer throughput: `kafka-consumer-perf-test`
 
 **Metrics:**
+
 - Records per second
 - MB per second
 - Average latency
@@ -301,6 +328,7 @@ Runs performance benchmarks using Kafka's built-in tools.
 Stops containers and optionally removes volumes.
 
 **Options:**
+
 - Basic cleanup: `./scripts/06-cleanup.sh`
 - Full cleanup with data: `./scripts/06-cleanup.sh --volumes`
 
@@ -328,6 +356,7 @@ docker exec kafka kafka-topics \
 ```
 
 **Output:**
+
 ```
 Topic: events   PartitionCount: 3   ReplicationFactor: 1
 Topic: events   Partition: 0   Leader: 1   Replicas: 1   Isr: 1
@@ -389,10 +418,12 @@ docker exec kafka kafka-configs \
 Key configurations:
 
 **Zookeeper:**
+
 - `ZOOKEEPER_CLIENT_PORT`: 2181
 - `ZOOKEEPER_TICK_TIME`: 2000
 
 **Kafka:**
+
 - `KAFKA_BROKER_ID`: 1
 - `KAFKA_ZOOKEEPER_CONNECT`: zookeeper:2181
 - `KAFKA_ADVERTISED_LISTENERS`: PLAINTEXT://localhost:9092
@@ -416,6 +447,7 @@ docker-compose -f docker/docker-compose.yml logs -f kafka
 Access: `http://localhost:8080`
 
 **Features:**
+
 - Topic browser
 - Message viewer
 - Consumer group monitoring
@@ -439,16 +471,19 @@ docker exec kafka kafka-run-class kafka.tools.GetOffsetShell \
 ### Broker Not Starting
 
 **Check logs:**
+
 ```bash
 docker logs kafka
 ```
 
 **Common issues:**
+
 - Zookeeper not ready (wait longer)
 - Port 9092 already in use
 - Insufficient memory
 
 **Solution:**
+
 ```bash
 ./scripts/06-cleanup.sh
 ./scripts/01-start.sh
@@ -459,12 +494,14 @@ docker logs kafka
 ### Cannot Connect to Broker
 
 **Test connectivity:**
+
 ```bash
 docker exec kafka kafka-broker-api-versions \
     --bootstrap-server localhost:9092
 ```
 
 **Check advertised listeners:**
+
 ```bash
 docker exec kafka cat /etc/kafka/server.properties | grep advertised
 ```
@@ -474,11 +511,13 @@ docker exec kafka cat /etc/kafka/server.properties | grep advertised
 ### Consumer Not Receiving Messages
 
 **Check topic exists:**
+
 ```bash
 docker exec kafka kafka-topics --bootstrap-server localhost:9092 --list
 ```
 
 **Check messages in topic:**
+
 ```bash
 docker exec kafka kafka-run-class kafka.tools.GetOffsetShell \
     --broker-list localhost:9092 \
@@ -490,6 +529,7 @@ docker exec kafka kafka-run-class kafka.tools.GetOffsetShell \
 ### High Memory Usage
 
 **Adjust JVM settings in docker-compose.yml:**
+
 ```yaml
 environment:
   KAFKA_HEAP_OPTS: "-Xmx512M -Xms512M"
