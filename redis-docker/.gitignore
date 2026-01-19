@@ -1,0 +1,46 @@
+# Environment files
+.env
+
+# Redis dumps
+dump.rdb
+appendonly.aof
+*.rdb
+*.aof
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Docker volumes (if extracted)
+volumes/
+
+# Test files
+test-output/
+*.test
+
+# Compressed files
+*.zip
+*.tar
+*.tar.gz
+*.rar
+
+# Local notes
+notes.txt
+TODO.md
+scratch/
