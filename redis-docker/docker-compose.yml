@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: redis-docker
+    command: redis-server /usr/local/etc/redis/redis.conf
+    environment:
+      TZ: Europe/Istanbul
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - redis-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis123}", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: redis-commander
+    environment:
+      REDIS_HOSTS: "local:redis:6379:0:${REDIS_PASSWORD:-redis123}"
+      HTTP_USER: ${COMMANDER_USER:-admin}
+      HTTP_PASSWORD: ${COMMANDER_PASSWORD:-admin}
+      PORT: 8081
+    ports:
+      - "${COMMANDER_PORT:-8081}:8081"
+    networks:
+      - redis-network
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  redis-network:
+    driver: bridge
+
+volumes:
+  redis_data:
+    driver: local

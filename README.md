@@ -45,7 +45,8 @@ working reference that I can copy and adapt.
 | **[kafka-setup](./kafka-plaintext)**                    | Ready   | Basic Kafka with Docker          | Kafka, Zookeeper                        | 10 min     |
 | **[kafka-sasl-ssl](./kafka-sasl-ssl)**                  | Ready   | Production-grade secure Kafka    | Kafka, SASL/SSL, Shell Scripts          | 20 min     |
 | **notification-service**                                | Planned | Event-driven email notifications | Kafka, Spring Mail, Maildev             | 15 min     |
-| **postgres-docker**                                     | Planned | PostgreSQL with health checks    | PostgreSQL, Docker                      | 10 min     |
+| **[postgres-docker](./postgres-docker)**                | Planned | PostgreSQL with health checks    | PostgreSQL, Docker                      | 10 min     |
+| **[redis-docker](./redis-docker)**                      | Planned | Redis with persistence           | Redis, Docker                           | 10 min     |
 | **redis-json-cache**                                    | Planned | Redis caching with JSON          | Redis, Jackson                          | 10 min     |
 | **[spring-data-specification](./spring-specification)** | Ready   | Dynamic query building           | Spring Data JPA                         | 15 min     |
 | **[spring-data-projection](./spring-projection)**       | Ready   | Performance-optimized queries    | Spring Data JPA                         | 15 min     |
