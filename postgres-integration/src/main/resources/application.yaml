@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: postgres-integration
+
+  profiles:
+    active: dev
+
+  jpa:
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: app_schema
+    hibernate:
+      ddl-auto: validate
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+logging:
+  level:
+    io.fayupable.postgres: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres_integration_db
+    username: appuser
+    password: appuser123
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    url: jdbc:postgresql://postgres:5432/postgres_integration_db
+    username: appuser
+    password: apppass123
