@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/jwt-refresh-token/pom.xml" />
         <option value="$PROJECT_DIR$/spring-projection/pom.xml" />
         <option value="$PROJECT_DIR$/spring-specification/pom.xml" />
+        <option value="$PROJECT_DIR$/postgres-integration/pom.xml" />
       </list>
     </option>
   </component>

@@ -9,7 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="jwt-basic" />
       </profile>
-      <profile name="Annotation profile for Spring Specification" enabled="true">
+      <profile name="Annotation profile for postgres-integration" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -18,6 +18,7 @@
         </processorPath>
         <module name="spring-projection" />
         <module name="jwt-refresh-token" />
+        <module name="postgres-integration" />
         <module name="spring-specification" />
       </profile>
     </annotationProcessing>
@@ -26,6 +27,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="jwt-basic" options="-parameters" />
       <module name="jwt-refresh-token" options="-parameters" />
+      <module name="postgres-integration" options="-parameters" />
       <module name="spring-projection" options="-parameters" />
       <module name="spring-specification" options="-parameters" />
     </option>

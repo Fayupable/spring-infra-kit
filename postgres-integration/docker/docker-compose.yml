@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres_integration_postgres
+    environment:
+      POSTGRES_DB: postgres_integration_db
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: apppass123
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts.sql:/docker-entrypoint-initdb.d/init-scripts.sql
+    networks:
+      - postgres-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U appuser -d postgres_integration_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 256M
+
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: postgres_integration_app
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      JAVA_OPTS: "-Xms256m -Xmx256m"
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - postgres-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 256M
+
+networks:
+  postgres-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
